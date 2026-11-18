@@ -1,6 +1,27 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { SUPPORTED_LANGUAGES, type LanguageCode } from '../backend/types/index.ts';
+import {
+  APPLICATION_STATUS_LABELS,
+  CATEGORY_LABELS,
+  EDUCATION_LEVEL_LABELS,
+  EMPLOYMENT_STATUS_LABELS,
+  GENDER_LABELS,
+  INCOME_RANGE_LABELS,
+  RESIDENCE_LABELS,
+  SOCIAL_CATEGORY_LABELS,
+  STATE_LABELS,
+  VERIFICATION_STATUS_LABELS,
+} from '../backend/data/domainTranslations.ts';
+import { SCHEME_TRANSLATIONS, localizeScheme } from '../backend/data/schemeTranslations/index.ts';
+import { INDIAN_STATES_AND_UTS, INITIAL_VERIFIED_SCHEMES } from '../backend/data/verifiedSchemes.ts';
+import { evaluateEligibility } from '../backend/services/eligibilityEngine.ts';
+import {
+  APPLICATION_STATUSES,
+  SCHEME_CATEGORIES,
+  SUPPORTED_LANGUAGES,
+  type LanguageCode,
+  type VerificationStatus,
+} from '../backend/types/index.ts';
 import {
   createSessionToken,
   hashPassword,
@@ -91,4 +112,120 @@ describe('7-Language Localization Integrity', () => {
       }
     }
   });
+
+  it('provides complete non-empty domain enum translations across all 7 languages', () => {
+    const verificationStatuses: VerificationStatus[] = [
+      'Draft',
+      'Verification Required',
+      'Verified',
+      'Needs Review',
+      'Archived',
+    ];
+    const allMaps: Array<[string, readonly string[], Record<string, Record<LanguageCode, string>>]> = [
+      ['categories', SCHEME_CATEGORIES, CATEGORY_LABELS],
+      ['states', ['All India', ...INDIAN_STATES_AND_UTS], STATE_LABELS],
+      ['applicationStatuses', APPLICATION_STATUSES, APPLICATION_STATUS_LABELS],
+      ['verificationStatuses', verificationStatuses, VERIFICATION_STATUS_LABELS],
+      ['residence', ['Rural', 'Urban'], RESIDENCE_LABELS],
+      [
+        'income',
+        [
+          'Below ₹1,00,000',
+          '₹1,00,000 – ₹2,50,000',
+          '₹2,50,000 – ₹5,00,000',
+          '₹5,00,000 – ₹8,00,000',
+          'Above ₹8,00,000',
+        ],
+        INCOME_RANGE_LABELS,
+      ],
+      [
+        'education',
+        [
+          'No Formal Education',
+          'Primary / Secondary (Up to Class 10)',
+          'Higher Secondary (Class 12)',
+          'Diploma / ITI',
+          'Undergraduate',
+          'Postgraduate & Above',
+        ],
+        EDUCATION_LEVEL_LABELS,
+      ],
+      [
+        'employment',
+        [
+          'Student',
+          'Unemployed',
+          'Self-Employed / Entrepreneur',
+          'Salaried',
+          'Farmer / Agricultural Worker',
+          'Homemaker',
+          'Retired / Senior Citizen',
+        ],
+        EMPLOYMENT_STATUS_LABELS,
+      ],
+      ['gender', ['Female', 'Male', 'Other', 'Prefer Not to Say'], GENDER_LABELS],
+      ['socialCategory', ['General', 'OBC', 'SC', 'ST', 'EWS', 'Minority'], SOCIAL_CATEGORY_LABELS],
+    ];
+
+    for (const [label, keys, map] of allMaps) {
+      for (const key of keys) {
+        assert.ok(map[key], `Missing ${label} translation entry for "${key}"`);
+        for (const { code } of SUPPORTED_LANGUAGES) {
+          assert.ok(map[key][code]?.trim().length > 0, `Empty ${label}.${key}.${code}`);
+        }
+      }
+    }
+  });
+
+  it('localizes all 16 verified schemes in hi, bn, te, mr, ta, and gu with aligned checklist lengths', () => {
+    const nonEn: Exclude<LanguageCode, 'en'>[] = ['hi', 'bn', 'te', 'mr', 'ta', 'gu'];
+    for (const scheme of INITIAL_VERIFIED_SCHEMES) {
+      for (const lang of nonEn) {
+        const entry = SCHEME_TRANSLATIONS[lang]?.[scheme.id];
+        assert.ok(entry, `Missing scheme translation ${lang}.${scheme.id}`);
+        const localized = localizeScheme(scheme, lang);
+        assert.notEqual(localized.name, scheme.name, `Expected translated name for ${lang}.${scheme.id}`);
+        assert.notEqual(
+          localized.officialDescription,
+          scheme.officialDescription,
+          `Expected translated description for ${lang}.${scheme.id}`
+        );
+        assert.equal(
+          localized.requiredDocuments.length,
+          scheme.requiredDocuments.length,
+          `Document length mismatch at ${lang}.${scheme.id}`
+        );
+        assert.equal(
+          localized.preparationTasks.length,
+          scheme.preparationTasks.length,
+          `Task length mismatch at ${lang}.${scheme.id}`
+        );
+      }
+    }
+  });
+
+  it('returns localized deterministic eligibility criteria while preserving canonical classification', () => {
+    const pmKisan = INITIAL_VERIFIED_SCHEMES.find((s) => s.id === 'pm-kisan')!;
+    const farmerProfile = {
+      age: 35,
+      state: 'Maharashtra',
+      residence: 'Rural' as const,
+      incomeRange: 'Below ₹1,00,000' as const,
+      isFarmer: true,
+    };
+
+    const enRes = evaluateEligibility(farmerProfile, pmKisan, 'en');
+    assert.equal(enRes.classification, 'Likely Eligible');
+
+    for (const lang of ['hi', 'ta', 'gu'] as const) {
+      const locRes = evaluateEligibility(farmerProfile, pmKisan, lang);
+      assert.equal(locRes.classification, 'Likely Eligible');
+      assert.notEqual(locRes.schemeName, enRes.schemeName);
+      assert.notEqual(locRes.reason, enRes.reason);
+      assert.notEqual(locRes.nextRecommendedAction, enRes.nextRecommendedAction);
+      assert.equal(locRes.conditionsSatisfied.length, enRes.conditionsSatisfied.length);
+      assert.notEqual(locRes.conditionsSatisfied[0], enRes.conditionsSatisfied[0]);
+    }
+  });
 });
+

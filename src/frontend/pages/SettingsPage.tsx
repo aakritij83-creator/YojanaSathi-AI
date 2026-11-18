@@ -8,7 +8,7 @@ import { useLanguage } from '../context/LanguageContext.tsx';
 import { useTheme } from '../context/ThemeContext.tsx';
 import { DashboardLayout } from '../layouts/DashboardLayout.tsx';
 import { apiRequest, setStoredToken } from '../services/api.ts';
-import { LANGUAGE_OPTIONS } from '../translations/index.ts';
+import { LANGUAGE_OPTIONS, TRANSLATIONS } from '../translations/index.ts';
 
 export function SettingsPage() {
   const { user, setUser, logout } = useAuth();
@@ -29,7 +29,7 @@ export function SettingsPage() {
         body: JSON.stringify({ preferredLanguage: next }),
       });
       setUser(res.user);
-      setFeedback('Language preference updated.');
+      setFeedback(TRANSLATIONS[next].settings.langUpdatedFeedback);
     } catch {
       // local preference saved
     }
@@ -43,7 +43,7 @@ export function SettingsPage() {
         body: JSON.stringify({ themePreference: next }),
       });
       setUser(res.user);
-      setFeedback('Theme preference updated.');
+      setFeedback(t.settings.themeUpdatedFeedback);
     } catch {
       // local preference saved
     }
@@ -70,7 +70,7 @@ export function SettingsPage() {
     setError(null);
     try {
       await apiRequest('/api/profile/personal-records', { method: 'DELETE' });
-      setFeedback('Personal saved schemes, applications, chats, and rejection analyses cleared.');
+      setFeedback(t.settings.recordsClearedFeedback);
     } catch (err) {
       setError(err instanceof Error ? err.message : t.common.errorGeneric);
     } finally {
@@ -126,7 +126,7 @@ export function SettingsPage() {
             </div>
 
             <div>
-              <p className="text-xs font-semibold">Theme Preference</p>
+              <p className="text-xs font-semibold">{t.settings.themePreferenceLabel}</p>
               <div className="mt-1.5 flex rounded-xl bg-[#EFECE4] p-1 dark:bg-[#0A121C]">
                 <button
                   type="button"
@@ -192,7 +192,7 @@ export function SettingsPage() {
                   onClick={handleDeleteAccount}
                   className="rounded-xl bg-[#9E3B3B] px-4 py-2.5 text-xs font-semibold text-white"
                 >
-                  Confirm Permanent Deletion
+                  {t.settings.confirmDeleteBtn}
                 </button>
                 <button
                   type="button"

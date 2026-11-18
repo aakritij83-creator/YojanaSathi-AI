@@ -29,15 +29,15 @@ interface EvaluateResponse {
   };
 }
 
-const RESIDENCE_OPTIONS: Array<Exclude<UserProfile['residence'], ''>> = ['Rural', 'Urban'];
-const INCOME_OPTIONS: Array<Exclude<UserProfile['incomeRange'], ''>> = [
+const RESIDENCE_OPTIONS: Array<NonNullable<Exclude<UserProfile['residence'], ''>>> = ['Rural', 'Urban'];
+const INCOME_OPTIONS: Array<NonNullable<Exclude<UserProfile['incomeRange'], ''>>> = [
   'Below ₹1,00,000',
   '₹1,00,000 – ₹2,50,000',
   '₹2,50,000 – ₹5,00,000',
   '₹5,00,000 – ₹8,00,000',
   'Above ₹8,00,000',
 ];
-const EDUCATION_OPTIONS: Array<Exclude<UserProfile['educationLevel'], ''>> = [
+const EDUCATION_OPTIONS: Array<NonNullable<Exclude<UserProfile['educationLevel'], ''>>> = [
   'No Formal Education',
   'Primary / Secondary (Up to Class 10)',
   'Higher Secondary (Class 12)',
@@ -45,7 +45,7 @@ const EDUCATION_OPTIONS: Array<Exclude<UserProfile['educationLevel'], ''>> = [
   'Undergraduate',
   'Postgraduate & Above',
 ];
-const EMPLOYMENT_OPTIONS: Array<Exclude<UserProfile['employmentStatus'], ''>> = [
+const EMPLOYMENT_OPTIONS: Array<NonNullable<Exclude<UserProfile['employmentStatus'], ''>>> = [
   'Student',
   'Unemployed',
   'Self-Employed / Entrepreneur',
@@ -54,8 +54,13 @@ const EMPLOYMENT_OPTIONS: Array<Exclude<UserProfile['employmentStatus'], ''>> = 
   'Homemaker',
   'Retired / Senior Citizen',
 ];
-const GENDER_OPTIONS: Array<Exclude<UserProfile['gender'], ''>> = ['Female', 'Male', 'Other', 'Prefer Not to Say'];
-const SOCIAL_CATEGORY_OPTIONS: Array<Exclude<UserProfile['socialCategory'], ''>> = [
+const GENDER_OPTIONS: Array<NonNullable<Exclude<UserProfile['gender'], ''>>> = [
+  'Female',
+  'Male',
+  'Other',
+  'Prefer Not to Say',
+];
+const SOCIAL_CATEGORY_OPTIONS: Array<NonNullable<Exclude<UserProfile['socialCategory'], ''>>> = [
   'General',
   'OBC',
   'SC',

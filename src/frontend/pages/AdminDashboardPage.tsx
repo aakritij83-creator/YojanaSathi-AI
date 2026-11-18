@@ -11,9 +11,25 @@ import { ErrorBanner, LoadingSkeleton } from '../components/UiPrimitives.tsx';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { DashboardLayout } from '../layouts/DashboardLayout.tsx';
 import { apiRequest } from '../services/api.ts';
+import {
+  translateCategory,
+  translateClassification,
+  translateFeedbackCategory,
+  translateFeedbackStatus,
+  translateState,
+  translateVerificationStatus,
+} from '../translations/domainLabels.ts';
+
+const VERIFICATION_STATUS_OPTIONS: VerificationStatus[] = [
+  'Draft',
+  'Verification Required',
+  'Verified',
+  'Needs Review',
+  'Archived',
+];
 
 export function AdminDashboardPage() {
-  const { t } = useLanguage();
+  const { language, t, localizeScheme } = useLanguage();
   const [tab, setTab] = useState<'schemes' | 'feedback' | 'audit'>('schemes');
   const [schemes, setSchemes] = useState<GovernmentScheme[]>([]);
   const [feedback, setFeedback] = useState<FeedbackRecord[]>([]);
@@ -126,10 +142,8 @@ export function AdminDashboardPage() {
       <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="font-display text-2xl font-bold">Protected Administrator Console</h2>
-            <p className="mt-1 text-sm text-[#465362] dark:text-[#A9B4C2]">
-              Verify official scheme sources, manage catalog statuses, review citizen feedback, and inspect audit logs.
-            </p>
+            <h2 className="font-display text-2xl font-bold">{t.admin.title}</h2>
+            <p className="mt-1 text-sm text-[#465362] dark:text-[#A9B4C2]">{t.admin.subtitle}</p>
           </div>
           <button
             type="button"
@@ -137,7 +151,7 @@ export function AdminDashboardPage() {
             className="inline-flex items-center gap-1.5 rounded-xl bg-[#0F1D2E] px-4 py-2.5 text-xs font-semibold text-[#FAF8F4] dark:bg-[#CBB07A] dark:text-[#0A121C]"
           >
             <Plus className="h-4 w-4" />
-            <span>Add Scheme</span>
+            <span>{t.admin.addSchemeBtn}</span>
           </button>
         </div>
 
@@ -148,12 +162,12 @@ export function AdminDashboardPage() {
             onSubmit={createScheme}
             className="space-y-4 rounded-2xl border border-[#E6E1D6] bg-white p-6 dark:border-[#1F2E42] dark:bg-[#111C2B]"
           >
-            <h3 className="font-display text-base font-semibold">Create New Scheme Record (Draft / Verification Required)</h3>
+            <h3 className="font-display text-base font-semibold">{t.admin.createSchemeHeading}</h3>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <input
                 type="text"
                 required
-                placeholder="Official Scheme Name"
+                placeholder={t.admin.namePlaceholder}
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 className="rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
@@ -161,7 +175,7 @@ export function AdminDashboardPage() {
               <input
                 type="text"
                 required
-                placeholder="Short Code (e.g. PM-VISHWAKARMA)"
+                placeholder={t.admin.shortCodePlaceholder}
                 value={newCode}
                 onChange={(e) => setNewCode(e.target.value)}
                 className="rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
@@ -169,7 +183,7 @@ export function AdminDashboardPage() {
               <input
                 type="text"
                 required
-                placeholder="Department / Ministry"
+                placeholder={t.admin.deptPlaceholder}
                 value={newDept}
                 onChange={(e) => setNewDept(e.target.value)}
                 className="rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
@@ -179,13 +193,13 @@ export function AdminDashboardPage() {
                 onChange={(e) => setNewClass(e.target.value as 'Central' | 'State')}
                 className="rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="Central">Central</option>
-                <option value="State">State</option>
+                <option value="Central">{translateClassification('Central', language)}</option>
+                <option value="State">{translateClassification('State', language)}</option>
               </select>
               <input
                 type="text"
                 required
-                placeholder="Applicable State (e.g. All India)"
+                placeholder={t.admin.statePlaceholder}
                 value={newState}
                 onChange={(e) => setNewState(e.target.value)}
                 className="rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
@@ -197,14 +211,14 @@ export function AdminDashboardPage() {
               >
                 {SCHEME_CATEGORIES.map((c) => (
                   <option key={c} value={c}>
-                    {c}
+                    {translateCategory(c, language)}
                   </option>
                 ))}
               </select>
               <input
                 type="url"
                 required
-                placeholder="Official Source URL"
+                placeholder={t.admin.sourceUrlPlaceholder}
                 value={newSourceUrl}
                 onChange={(e) => setNewSourceUrl(e.target.value)}
                 className="rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
@@ -212,7 +226,7 @@ export function AdminDashboardPage() {
               <input
                 type="url"
                 required
-                placeholder="Official Application URL"
+                placeholder={t.admin.appUrlPlaceholder}
                 value={newAppUrl}
                 onChange={(e) => setNewAppUrl(e.target.value)}
                 className="rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
@@ -221,7 +235,7 @@ export function AdminDashboardPage() {
             <textarea
               required
               rows={3}
-              placeholder="Official scheme description..."
+              placeholder={t.admin.descPlaceholder}
               value={newDesc}
               onChange={(e) => setNewDesc(e.target.value)}
               className="w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
@@ -231,7 +245,7 @@ export function AdminDashboardPage() {
                 {t.common.cancel}
               </button>
               <button type="submit" className="rounded-xl bg-[#0F1D2E] px-5 py-2 text-xs font-semibold text-[#FAF8F4] dark:bg-[#CBB07A] dark:text-[#0A121C]">
-                Save Scheme
+                {t.admin.saveSchemeBtn}
               </button>
             </div>
           </form>
@@ -241,9 +255,9 @@ export function AdminDashboardPage() {
         <div className="flex gap-1 rounded-xl bg-[#EFECE4] p-1 w-fit dark:bg-[#111C2B]">
           {(
             [
-              ['schemes', `Schemes (${schemes.length})`],
-              ['feedback', `Feedback (${feedback.length})`],
-              ['audit', `Audit Logs (${auditLogs.length})`],
+              ['schemes', `${t.admin.tabSchemes} (${schemes.length})`],
+              ['feedback', `${t.admin.tabFeedback} (${feedback.length})`],
+              ['audit', `${t.admin.tabAudit} (${auditLogs.length})`],
             ] as const
           ).map(([key, label]) => (
             <button
@@ -266,52 +280,55 @@ export function AdminDashboardPage() {
             <table className="w-full text-left text-xs">
               <thead className="border-b border-[#E6E1D6] bg-[#FAF8F4] dark:border-[#1F2E42] dark:bg-[#0E1826]">
                 <tr>
-                  <th className="px-4 py-3 font-semibold">Scheme</th>
-                  <th className="px-4 py-3 font-semibold">State</th>
-                  <th className="px-4 py-3 font-semibold">Verified Date</th>
-                  <th className="px-4 py-3 font-semibold">Status</th>
-                  <th className="px-4 py-3 font-semibold">Actions</th>
+                  <th className="px-4 py-3 font-semibold">{t.admin.colScheme}</th>
+                  <th className="px-4 py-3 font-semibold">{t.admin.colState}</th>
+                  <th className="px-4 py-3 font-semibold">{t.admin.colVerifiedDate}</th>
+                  <th className="px-4 py-3 font-semibold">{t.admin.colStatus}</th>
+                  <th className="px-4 py-3 font-semibold">{t.admin.colActions}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E6E1D6] dark:divide-[#1F2E42]">
-                {schemes.map((s) => (
-                  <tr key={s.id}>
-                    <td className="px-4 py-3 font-medium">{s.name}</td>
-                    <td className="px-4 py-3">{s.applicableState}</td>
-                    <td className="px-4 py-3 font-mono tabular-nums">{s.lastVerifiedDate}</td>
-                    <td className="px-4 py-3">
-                      <select
-                        aria-label={`Verification status for ${s.shortCode}`}
-                        value={s.verificationStatus}
-                        onChange={(e) => updateSchemeVerification(s.id, e.target.value as VerificationStatus)}
-                        className="rounded-lg border border-[#E6E1D6] bg-[#FAF8F4] px-2 py-1 text-xs dark:border-[#1F2E42] dark:bg-[#0A121C]"
-                      >
-                        <option value="Draft">Draft</option>
-                        <option value="Verification Required">Verification Required</option>
-                        <option value="Verified">Verified</option>
-                        <option value="Needs Review">Needs Review</option>
-                        <option value="Archived">Archived</option>
-                      </select>
-                    </td>
-                    <td className="px-4 py-3">
-                      <button
-                        type="button"
-                        onClick={() => archiveScheme(s.id)}
-                        className="inline-flex items-center gap-1 text-xs text-[#9E3B3B] hover:underline"
-                      >
-                        <Archive className="h-3.5 w-3.5" />
-                        <span>Archive</span>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {schemes.map((s) => {
+                  const loc = localizeScheme(s);
+                  return (
+                    <tr key={s.id}>
+                      <td className="px-4 py-3 font-medium">{loc.name}</td>
+                      <td className="px-4 py-3">{translateState(loc.applicableState, language)}</td>
+                      <td className="px-4 py-3 font-mono tabular-nums">{loc.lastVerifiedDate}</td>
+                      <td className="px-4 py-3">
+                        <select
+                          aria-label={`${t.admin.colStatus}: ${loc.shortCode}`}
+                          value={s.verificationStatus}
+                          onChange={(e) => updateSchemeVerification(s.id, e.target.value as VerificationStatus)}
+                          className="rounded-lg border border-[#E6E1D6] bg-[#FAF8F4] px-2 py-1 text-xs dark:border-[#1F2E42] dark:bg-[#0A121C]"
+                        >
+                          {VERIFICATION_STATUS_OPTIONS.map((vs) => (
+                            <option key={vs} value={vs}>
+                              {translateVerificationStatus(vs, language)}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          type="button"
+                          onClick={() => archiveScheme(s.id)}
+                          className="inline-flex items-center gap-1 text-xs text-[#9E3B3B] hover:underline"
+                        >
+                          <Archive className="h-3.5 w-3.5" />
+                          <span>{t.admin.archiveBtn}</span>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         ) : tab === 'feedback' ? (
           <div className="space-y-3">
             {feedback.length === 0 ? (
-              <p className="text-sm text-[#64748B]">No citizen feedback submitted yet.</p>
+              <p className="text-sm text-[#64748B]">{t.admin.emptyFeedback}</p>
             ) : (
               feedback.map((f) => (
                 <div
@@ -320,7 +337,8 @@ export function AdminDashboardPage() {
                 >
                   <div>
                     <p className="text-xs font-semibold">
-                      {f.category} · <span className="font-mono">{f.status}</span>
+                      {translateFeedbackCategory(f.category, language)} ·{' '}
+                      <span className="font-mono">{translateFeedbackStatus(f.status, language)}</span>
                     </p>
                     <p className="mt-1 text-sm">{f.message}</p>
                     <p className="mt-1 font-mono text-[11px] text-[#64748B]">{f.createdAt.slice(0, 10)}</p>
@@ -332,7 +350,7 @@ export function AdminDashboardPage() {
                       className="inline-flex items-center gap-1 rounded-lg border border-[#E6E1D6] px-3 py-1.5 text-xs font-semibold"
                     >
                       <CheckCircle className="h-3.5 w-3.5 text-[#3F6B56]" />
-                      <span>Mark Resolved</span>
+                      <span>{t.admin.markResolvedBtn}</span>
                     </button>
                   </div>
                 </div>
@@ -342,7 +360,7 @@ export function AdminDashboardPage() {
         ) : (
           <div className="space-y-2">
             {auditLogs.length === 0 ? (
-              <p className="text-sm text-[#64748B]">No admin actions recorded yet.</p>
+              <p className="text-sm text-[#64748B]">{t.admin.emptyAuditLogs}</p>
             ) : (
               auditLogs.map((log) => (
                 <div

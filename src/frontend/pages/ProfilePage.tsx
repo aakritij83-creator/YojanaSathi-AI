@@ -7,11 +7,60 @@ import { useAuth } from '../context/AuthContext.tsx';
 import { useLanguage } from '../context/LanguageContext.tsx';
 import { DashboardLayout } from '../layouts/DashboardLayout.tsx';
 import { apiRequest } from '../services/api.ts';
+import {
+  translateEducationLevel,
+  translateEmploymentStatus,
+  translateGender,
+  translateIncomeRange,
+  translateResidence,
+  translateSocialCategory,
+  translateState,
+} from '../translations/domainLabels.ts';
 import { LANGUAGE_OPTIONS } from '../translations/index.ts';
+
+const GENDER_OPTIONS: Array<NonNullable<Exclude<UserProfile['gender'], ''>>> = [
+  'Female',
+  'Male',
+  'Other',
+  'Prefer Not to Say',
+];
+const RESIDENCE_OPTIONS: Array<NonNullable<Exclude<UserProfile['residence'], ''>>> = ['Rural', 'Urban'];
+const INCOME_OPTIONS: Array<NonNullable<Exclude<UserProfile['incomeRange'], ''>>> = [
+  'Below ₹1,00,000',
+  '₹1,00,000 – ₹2,50,000',
+  '₹2,50,000 – ₹5,00,000',
+  '₹5,00,000 – ₹8,00,000',
+  'Above ₹8,00,000',
+];
+const SOCIAL_CATEGORY_OPTIONS: Array<NonNullable<Exclude<UserProfile['socialCategory'], ''>>> = [
+  'General',
+  'OBC',
+  'SC',
+  'ST',
+  'EWS',
+  'Minority',
+];
+const EDUCATION_OPTIONS: Array<NonNullable<Exclude<UserProfile['educationLevel'], ''>>> = [
+  'No Formal Education',
+  'Primary / Secondary (Up to Class 10)',
+  'Higher Secondary (Class 12)',
+  'Diploma / ITI',
+  'Undergraduate',
+  'Postgraduate & Above',
+];
+const EMPLOYMENT_OPTIONS: Array<NonNullable<Exclude<UserProfile['employmentStatus'], ''>>> = [
+  'Student',
+  'Unemployed',
+  'Self-Employed / Entrepreneur',
+  'Salaried',
+  'Farmer / Agricultural Worker',
+  'Homemaker',
+  'Retired / Senior Citizen',
+];
 
 export function ProfilePage() {
   const { user, setUser } = useAuth();
-  const { setLanguage, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const [form, setForm] = useState<UserProfile>(() => ({
     fullName: user?.profile.fullName || '',
     age: user?.profile.age ?? null,
@@ -101,7 +150,7 @@ export function ProfilePage() {
 
             <div>
               <label htmlFor="prof-age" className="block text-xs font-semibold">
-                Age (Years)
+                {t.profile.ageYearsLabel}
               </label>
               <input
                 id="prof-age"
@@ -118,7 +167,7 @@ export function ProfilePage() {
 
             <div>
               <label htmlFor="prof-dob" className="block text-xs font-semibold">
-                Date of Birth (Optional)
+                {t.profile.dobOptionalLabel}
               </label>
               <input
                 id="prof-dob"
@@ -131,7 +180,7 @@ export function ProfilePage() {
 
             <div>
               <label htmlFor="prof-gender" className="block text-xs font-semibold">
-                Gender (Optional)
+                {t.profile.genderOptionalLabel}
               </label>
               <select
                 id="prof-gender"
@@ -139,17 +188,18 @@ export function ProfilePage() {
                 onChange={(e) => setForm((p) => ({ ...p, gender: e.target.value as UserProfile['gender'] }))}
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="">Skip / Not specified</option>
-                <option value="Female">Female</option>
-                <option value="Male">Male</option>
-                <option value="Other">Other</option>
-                <option value="Prefer Not to Say">Prefer Not to Say</option>
+                <option value="">{t.profile.skipNotSpecified}</option>
+                {GENDER_OPTIONS.map((g) => (
+                  <option key={g} value={g}>
+                    {translateGender(g, language)}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div>
               <label htmlFor="prof-state" className="block text-xs font-semibold">
-                State / Union Territory
+                {t.profile.stateUtLabel}
               </label>
               <select
                 id="prof-state"
@@ -157,10 +207,10 @@ export function ProfilePage() {
                 onChange={(e) => setForm((p) => ({ ...p, state: e.target.value }))}
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="">Select state</option>
+                <option value="">{t.profile.selectState}</option>
                 {INDIAN_STATES_AND_UTS.map((s) => (
                   <option key={s} value={s}>
-                    {s}
+                    {translateState(s, language)}
                   </option>
                 ))}
               </select>
@@ -168,21 +218,21 @@ export function ProfilePage() {
 
             <div>
               <label htmlFor="prof-district" className="block text-xs font-semibold">
-                District (Optional)
+                {t.profile.districtOptionalLabel}
               </label>
               <input
                 id="prof-district"
                 type="text"
                 value={form.district}
                 onChange={(e) => setForm((p) => ({ ...p, district: e.target.value }))}
-                placeholder="e.g. Pune"
+                placeholder={t.profile.districtPlaceholder}
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               />
             </div>
 
             <div>
               <label htmlFor="prof-res" className="block text-xs font-semibold">
-                Rural or Urban Residence
+                {t.profile.residenceLabel}
               </label>
               <select
                 id="prof-res"
@@ -190,15 +240,18 @@ export function ProfilePage() {
                 onChange={(e) => setForm((p) => ({ ...p, residence: e.target.value as UserProfile['residence'] }))}
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="">Skip / Not specified</option>
-                <option value="Rural">Rural</option>
-                <option value="Urban">Urban</option>
+                <option value="">{t.profile.skipNotSpecified}</option>
+                {RESIDENCE_OPTIONS.map((r) => (
+                  <option key={r} value={r}>
+                    {translateResidence(r, language)}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div>
               <label htmlFor="prof-inc" className="block text-xs font-semibold">
-                Annual Household Income Range
+                {t.profile.incomeRangeLabel}
               </label>
               <select
                 id="prof-inc"
@@ -206,18 +259,18 @@ export function ProfilePage() {
                 onChange={(e) => setForm((p) => ({ ...p, incomeRange: e.target.value as UserProfile['incomeRange'] }))}
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="">Skip / Not specified</option>
-                <option value="Below ₹1,00,000">Below ₹1,00,000</option>
-                <option value="₹1,00,000 – ₹2,50,000">₹1,00,000 – ₹2,50,000</option>
-                <option value="₹2,50,000 – ₹5,00,000">₹2,50,000 – ₹5,00,000</option>
-                <option value="₹5,00,000 – ₹8,00,000">₹5,00,000 – ₹8,00,000</option>
-                <option value="Above ₹8,00,000">Above ₹8,00,000</option>
+                <option value="">{t.profile.skipNotSpecified}</option>
+                {INCOME_OPTIONS.map((inc) => (
+                  <option key={inc} value={inc}>
+                    {translateIncomeRange(inc, language)}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div>
               <label htmlFor="prof-cat" className="block text-xs font-semibold">
-                Social Category (Voluntary)
+                {t.profile.socialCategoryVoluntaryLabel}
               </label>
               <select
                 id="prof-cat"
@@ -227,19 +280,18 @@ export function ProfilePage() {
                 }
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="">Prefer Not to Say / Skip</option>
-                <option value="General">General</option>
-                <option value="OBC">OBC</option>
-                <option value="SC">SC</option>
-                <option value="ST">ST</option>
-                <option value="EWS">EWS</option>
-                <option value="Minority">Minority</option>
+                <option value="">{t.eligibility.preferNotToSaySkip}</option>
+                {SOCIAL_CATEGORY_OPTIONS.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {translateSocialCategory(cat, language)}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div>
               <label htmlFor="prof-edu" className="block text-xs font-semibold">
-                Education Level
+                {t.profile.educationLevelLabel}
               </label>
               <select
                 id="prof-edu"
@@ -249,33 +301,32 @@ export function ProfilePage() {
                 }
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="">Skip / Not specified</option>
-                <option value="No Formal Education">No Formal Education</option>
-                <option value="Primary / Secondary (Up to Class 10)">Primary / Secondary (Up to Class 10)</option>
-                <option value="Higher Secondary (Class 12)">Higher Secondary (Class 12)</option>
-                <option value="Diploma / ITI">Diploma / ITI</option>
-                <option value="Undergraduate">Undergraduate</option>
-                <option value="Postgraduate & Above">Postgraduate &amp; Above</option>
+                <option value="">{t.profile.skipNotSpecified}</option>
+                {EDUCATION_OPTIONS.map((edu) => (
+                  <option key={edu} value={edu}>
+                    {translateEducationLevel(edu, language)}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div>
               <label htmlFor="prof-course" className="block text-xs font-semibold">
-                Current Course (If Student, Optional)
+                {t.profile.currentCourseOptionalLabel}
               </label>
               <input
                 id="prof-course"
                 type="text"
                 value={form.currentCourse}
                 onChange={(e) => setForm((p) => ({ ...p, currentCourse: e.target.value }))}
-                placeholder="e.g. B.Tech Computer Science"
+                placeholder={t.profile.coursePlaceholder}
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               />
             </div>
 
             <div>
               <label htmlFor="prof-emp" className="block text-xs font-semibold">
-                Employment Status
+                {t.profile.employmentStatusLabel}
               </label>
               <select
                 id="prof-emp"
@@ -285,27 +336,25 @@ export function ProfilePage() {
                 }
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="">Skip / Not specified</option>
-                <option value="Student">Student</option>
-                <option value="Unemployed">Unemployed</option>
-                <option value="Self-Employed / Entrepreneur">Self-Employed / Entrepreneur</option>
-                <option value="Salaried">Salaried</option>
-                <option value="Farmer / Agricultural Worker">Farmer / Agricultural Worker</option>
-                <option value="Homemaker">Homemaker</option>
-                <option value="Retired / Senior Citizen">Retired / Senior Citizen</option>
+                <option value="">{t.profile.skipNotSpecified}</option>
+                {EMPLOYMENT_OPTIONS.map((emp) => (
+                  <option key={emp} value={emp}>
+                    {translateEmploymentStatus(emp, language)}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div>
               <label htmlFor="prof-occ" className="block text-xs font-semibold">
-                Occupation (Optional)
+                {t.profile.occupationOptionalLabel}
               </label>
               <input
                 id="prof-occ"
                 type="text"
                 value={form.occupation}
                 onChange={(e) => setForm((p) => ({ ...p, occupation: e.target.value }))}
-                placeholder="e.g. Tailor, Small Farmer"
+                placeholder={t.profile.occupationPlaceholder}
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               />
             </div>
@@ -331,9 +380,9 @@ export function ProfilePage() {
 
           <div className="grid gap-4 border-t border-[#E6E1D6] pt-4 sm:grid-cols-2 dark:border-[#1F2E42]">
             <div>
-              <p className="text-xs font-semibold">Farmer Status (Optional)</p>
+              <p className="text-xs font-semibold">{t.profile.farmerStatusOptionalLabel}</p>
               <select
-                aria-label="Farmer Status"
+                aria-label={t.profile.farmerStatusOptionalLabel}
                 value={form.isFarmer === null || form.isFarmer === undefined ? '' : form.isFarmer ? 'yes' : 'no'}
                 onChange={(e) =>
                   setForm((p) => ({
@@ -343,16 +392,16 @@ export function ProfilePage() {
                 }
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="">Skip / Not specified</option>
-                <option value="yes">Yes, landholding or cultivating farmer</option>
-                <option value="no">No</option>
+                <option value="">{t.profile.skipNotSpecified}</option>
+                <option value="yes">{t.profile.farmerYesOption}</option>
+                <option value="no">{t.profile.noOption}</option>
               </select>
             </div>
 
             <div>
-              <p className="text-xs font-semibold">Disability Eligibility Info (Voluntary)</p>
+              <p className="text-xs font-semibold">{t.profile.disabilityInfoVoluntaryLabel}</p>
               <select
-                aria-label="Disability Status"
+                aria-label={t.profile.disabilityInfoVoluntaryLabel}
                 value={
                   form.hasDisability === null || form.hasDisability === undefined
                     ? ''
@@ -368,9 +417,9 @@ export function ProfilePage() {
                 }
                 className="mt-1.5 w-full rounded-xl border border-[#E6E1D6] bg-[#FAF8F4] px-3 py-2 text-sm dark:border-[#1F2E42] dark:bg-[#0A121C]"
               >
-                <option value="">Prefer Not to Say / Skip</option>
-                <option value="yes">Yes (40%+ certified benchmark disability)</option>
-                <option value="no">No</option>
+                <option value="">{t.eligibility.preferNotToSaySkip}</option>
+                <option value="yes">{t.profile.disabilityYesOption}</option>
+                <option value="no">{t.profile.noOption}</option>
               </select>
             </div>
           </div>
