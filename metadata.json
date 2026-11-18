@@ -1,0 +1,6 @@
+{
+  "name": "YojanaSathi AI",
+  "description": "Your Intelligent Guide to Government Schemes — discover schemes, verify deterministic eligibility, prepare applications, track progress, and analyze rejection notices across 7 Indian languages.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,1177 @@
+# YOJANASATHI AI
+## Complete Full-Stack AI-Powered Government Scheme Assistance Platform
+
+### MASTER DEVELOPMENT INSTRUCTION
+
+Act as a senior full-stack software architect, AI engineer, UI/UX designer, database engineer, cybersecurity specialist and QA engineer.
+
+Build a complete, functional, publicly deployable web application named:
+
+**YojanaSathi AI – Your Intelligent Guide to Government Schemes**
+
+Tagline: **The Right Scheme. The Right Guidance. The Right Opportunity.**
+
+This is a major final-year engineering project intended to become a useful public-facing platform for Indian citizens.
+
+Do not create a static prototype, landing-page-only website, nonfunctional dashboard or collection of decorative components.
+
+Build the complete application with frontend, backend, authentication, database, AI integration, business logic, document processing, security, testing and deployment preparation.
+
+Do not merely explain how the application could be built. Create the actual project files and implement the application.
+
+---
+
+# 1. PRODUCT VISION
+
+YojanaSathi AI helps Indian citizens:
+
+- Discover relevant government schemes.
+- Understand their eligibility.
+- Find scholarships and financial assistance.
+- Understand required documents.
+- Prepare government applications.
+- Track application progress.
+- Understand rejection notices.
+- Receive AI-powered guidance in their preferred language.
+
+The platform should serve students, farmers, unemployed individuals, women, senior citizens, entrepreneurs and other beneficiaries.
+
+It must be simple enough for citizens with limited technical knowledge.
+
+---
+
+# 2. TECHNOLOGY STACK
+
+Use Google AI Studio's native full-stack development environment.
+
+### Frontend
+- React.
+- TypeScript.
+- Tailwind CSS.
+- Lucide React icons.
+- React Router or an appropriate routing solution.
+- React Hook Form.
+- Zod validation.
+- Recharts.
+
+### Backend
+- Node.js server-side runtime supported by Google AI Studio.
+- Secure server-side API routes.
+- Gemini API integration.
+- Maintainable separation between frontend and backend.
+
+### Database and authentication
+Use Firebase:
+
+- Firebase Authentication.
+- Cloud Firestore.
+- Firebase Storage where required.
+- Firestore Security Rules.
+- Firebase Admin SDK for trusted server-side operations.
+
+### AI
+Use Gemini through secure server-side integration.
+
+Never expose API keys or administrative credentials in browser-side code.
+
+### Deployment
+Prepare the application for Google Cloud Run deployment through Google AI Studio.
+
+Maintain one consistent architecture. Do not introduce unnecessary technologies or complicated microservices.
+
+---
+
+# 3. CRITICAL PROJECT FILE ORGANIZATION AND EXPORT
+
+This requirement is extremely important.
+
+I want the entire project organised into ONE main folder so that I can easily download it, upload it, transfer it or share it.
+
+Create the main project directory:
+
+**YojanaSathi-AI/**
+
+Every project-related file must belong inside this single root directory.
+
+Use an organised structure similar to:
+
+YojanaSathi-AI/
+│
+├── frontend/
+│   ├── components/
+│   ├── pages/
+│   ├── layouts/
+│   ├── hooks/
+│   ├── services/
+│   ├── utils/
+│   ├── translations/
+│   └── assets/
+│
+├── backend/
+│   ├── routes/
+│   ├── controllers/
+│   ├── services/
+│   ├── middleware/
+│   ├── ai/
+│   └── utils/
+│
+├── firebase/
+│   ├── firestore.rules
+│   ├── firestore.indexes.json
+│   └── configuration/
+│
+├── public/
+│
+├── tests/
+│
+├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── DATABASE_SCHEMA.md
+│   ├── API_DOCUMENTATION.md
+│   ├── DEPLOYMENT.md
+│   ├── TESTING.md
+│   ├── LOCALIZATION.md
+│   └── PRIVACY_AND_SECURITY.md
+│
+├── .env.example
+├── .gitignore
+├── package.json
+├── README.md
+├── PROJECT_STATUS.md
+└── other required configuration files
+
+This is an illustrative structure. Adjust it to the actual framework while maintaining the single-root-folder requirement.
+
+### File organization rules
+
+1. Never scatter project files across unrelated directories.
+2. Keep frontend, backend, configuration, tests and documentation within the main project directory.
+3. Keep all required assets inside the project.
+4. Use relative paths and correct imports.
+5. Include every dependency and configuration file needed to reproduce the project.
+6. Include a `.env.example` file listing required environment variables without exposing real secrets.
+7. Include a `.gitignore` file.
+8. Never include private API keys, passwords, service-account credentials or sensitive user data in the exported project.
+9. Keep documentation inside the project directory.
+10. Do not leave essential code or configuration only in temporary environments.
+
+### Download and ZIP requirement
+
+At the end of development:
+
+- Prepare the complete project for export.
+- If the environment supports ZIP creation, create `YojanaSathi-AI.zip` containing the entire project folder.
+- Ensure the ZIP preserves the correct folder hierarchy.
+- Ensure the project can be extracted and opened independently.
+- Verify that essential files are included.
+- Provide the ZIP download option if supported.
+- If direct ZIP creation is unavailable, explain the exact steps to export the complete project and create the ZIP.
+
+The final result must be one self-contained, organised project folder that I can conveniently upload to another platform or share with someone.
+
+Do not claim that a ZIP was created unless it actually exists.
+
+---
+
+# 4. DEVELOPMENT RULES
+
+These instructions are mandatory.
+
+1. Build the actual application, not just a visual demonstration.
+2. Every visible button must perform its intended action.
+3. Every form must validate input.
+4. Important user actions must persist in Firestore.
+5. Authentication must work across browser refreshes and sessions.
+6. Do not use hardcoded fake authentication.
+7. Do not simulate AI responses with static predefined text.
+8. Do not use fabricated government scheme information.
+9. Do not claim a government application has been submitted without an actual authorized integration.
+10. Never invent official application URLs.
+11. Clearly distinguish verified information from unverified information.
+12. Handle loading states, empty states and errors.
+13. Maintain reusable components and clean architecture.
+14. Preserve working features when introducing new ones.
+15. Do not leave important modules as placeholder screens.
+16. Do not silently replace real functionality with mock data.
+17. Maintain PROJECT_STATUS.md throughout development.
+
+If external credentials are needed, explain exactly what is required and implement the remaining functionality.
+
+---
+
+# 5. DESIGN DIRECTION – CHIC, PREMIUM AND SOPHISTICATED
+
+This is a major design requirement.
+
+I want the application to look **chic, elegant, premium, contemporary and visually impressive**.
+
+Do not make it look like an outdated government portal, a basic college project or a generic AI-generated dashboard.
+
+The design should feel like a professionally designed modern technology startup.
+
+### Design inspiration
+
+Combine the visual qualities of:
+
+- Premium fintech applications.
+- Modern editorial websites.
+- Minimalist SaaS dashboards.
+- Elegant public-service platforms.
+
+### Visual characteristics
+
+- Clean layouts.
+- Sophisticated typography.
+- Generous whitespace.
+- Beautifully balanced proportions.
+- Subtle shadows.
+- Fine borders.
+- Smooth transitions.
+- Carefully designed cards.
+- Elegant icons.
+- Consistent spacing.
+- Beautifully styled forms.
+- Refined navigation.
+- Minimal but effective animations.
+
+### Suggested colour palette
+
+Use a refined colour combination:
+
+- Deep midnight navy.
+- Muted teal.
+- Soft sage green.
+- Warm ivory.
+- Off-white.
+- Subtle champagne or muted gold accents.
+
+Use colours consistently.
+
+Avoid excessive bright colours, oversaturated gradients, cartoon illustrations, unnecessary decorative elements and visual clutter.
+
+### Typography
+
+Use an elegant, highly readable font combination.
+
+Create a clear visual hierarchy for:
+
+- Main headings.
+- Section headings.
+- Body text.
+- Navigation.
+- Form labels.
+- Dashboard metrics.
+
+### Light and dark modes
+
+Implement:
+
+- Elegant light theme.
+- Sophisticated dark theme.
+- Persistent theme preference.
+- Theme toggle in navigation.
+- Proper contrast in both modes.
+
+### Responsive design
+
+The entire application must adapt to:
+
+- Desktop.
+- Laptop.
+- Tablet.
+- Mobile.
+
+Do not sacrifice the visual quality of the desktop interface when creating the mobile layout.
+
+The finished application should look polished enough to present professionally to recruiters, faculty and actual users.
+
+---
+
+# 6. APPLICATION NAVIGATION
+
+### Public navigation
+
+1. Home.
+2. Explore Schemes.
+3. How It Works.
+4. About Us.
+5. Login.
+6. Register.
+7. Language Selector.
+8. Theme Toggle.
+
+### Authenticated navigation
+
+1. Dashboard.
+2. Discover Schemes.
+3. Eligibility Checker.
+4. AI Assistant.
+5. Application Tracker.
+6. Rejection Analyzer.
+7. Saved Schemes.
+8. Notifications.
+9. My Profile.
+10. Settings.
+11. Logout.
+
+Use elegant navigation and a responsive sidebar for the authenticated dashboard.
+
+---
+
+# 7. HOME PAGE
+
+The application must ALWAYS open on the public Home page.
+
+Do not automatically open registration, login or dashboard.
+
+### Hero section
+
+Heading:
+
+"Government Benefits Should Be Within Everyone's Reach."
+
+Supporting text:
+
+"Discover government schemes, check your eligibility and get intelligent assistance throughout your application journey."
+
+Primary CTA: Explore Schemes
+
+Secondary CTA: Check My Eligibility
+
+### Additional sections
+
+- How YojanaSathi AI works.
+- Scheme categories.
+- Platform features.
+- AI assistance.
+- Benefits.
+- FAQs.
+- Disclaimer.
+- Footer.
+
+Do not display invented statistics or unsupported impact claims.
+
+---
+
+# 8. AUTHENTICATION
+
+Implement complete Firebase Authentication.
+
+### Registration fields
+
+- Full name.
+- Email address.
+- Password.
+- Confirm password.
+- Preferred language.
+- Acceptance of privacy policy and terms.
+
+Support Google Sign-In where available.
+
+### Login
+
+Implement:
+
+- Email and password login.
+- Google Sign-In.
+- Forgot password.
+- Password reset.
+- Logout.
+- Session persistence.
+- Authentication state management.
+
+### Mandatory behaviour
+
+- Registration creates a real Firebase Authentication account.
+- Corresponding user profile is saved in Firestore.
+- Login retrieves the correct authenticated user.
+- Unauthorized dashboard access is blocked.
+- Users cannot access another user's information.
+- Logout redirects to the public Home page.
+- Successful login redirects to the dashboard.
+
+Display:
+
+"Welcome back, [Registered User's Name]!"
+
+Use the actual registered name.
+
+Never use a hardcoded greeting.
+
+---
+
+# 9. USER PROFILE
+
+Create a privacy-conscious beneficiary profile.
+
+Fields:
+
+- Full name.
+- Age or date of birth.
+- State.
+- District.
+- Rural or urban residence.
+- Annual household income range.
+- Social category, if relevant and voluntarily provided.
+- Education level.
+- Current course.
+- Employment status.
+- Occupation.
+- Farmer status, if applicable.
+- Disability-related eligibility information, if relevant and voluntarily provided.
+- Preferred language.
+
+Allow editing and saving.
+
+Allow users to skip nonessential information.
+
+Never require Aadhaar, bank details or OTPs for basic scheme discovery.
+
+Explain why optional information is collected.
+
+---
+
+# 10. GOVERNMENT SCHEME DATABASE
+
+Create a searchable government scheme directory.
+
+### Categories
+
+1. Education and Scholarships.
+2. Women Empowerment.
+3. Farmers and Agriculture.
+4. Employment and Skill Development.
+5. Financial Assistance.
+6. Housing.
+7. Healthcare and Insurance.
+8. Senior Citizens.
+9. Social Welfare.
+10. Entrepreneurship and Business.
+11. Disability Assistance.
+12. Rural Development.
+13. Central Government Schemes.
+14. State Government Schemes.
+
+### Scheme fields
+
+- Scheme name.
+- Official description.
+- Government department.
+- Central or state classification.
+- Applicable state.
+- Target beneficiaries.
+- Eligibility requirements.
+- Age restrictions.
+- Income restrictions.
+- Education requirements.
+- Category restrictions, where applicable.
+- Benefits.
+- Required documents.
+- Application procedure.
+- Application dates, where available.
+- Official application URL.
+- Official source URL.
+- Last verified date.
+- Verification status.
+
+### Information integrity
+
+Use authentic government sources such as:
+
+- myScheme.
+- National Scholarship Portal.
+- National Government Services Portal.
+- Official ministry websites.
+- State government portals.
+- Official department websites.
+
+Never fabricate scheme information.
+
+Mark unverified records as "Verification Required".
+
+Maintain source URLs and verification dates.
+
+Only appropriately reviewed schemes should be labelled verified.
+
+---
+
+# 11. SCHEME DISCOVERY
+
+Create an intelligent scheme discovery interface.
+
+Allow search and filtering by:
+
+- Scheme name.
+- State.
+- District, where relevant.
+- Category.
+- Beneficiary type.
+- Education.
+- Income range.
+- Central or state government.
+- Application availability.
+- Eligibility status.
+
+Include:
+
+- Search.
+- Filters.
+- Sorting.
+- Pagination.
+- Scheme cards.
+- Scheme details.
+- Save/bookmark functionality.
+
+---
+
+# 12. DETERMINISTIC ELIGIBILITY ENGINE
+
+Build a real backend eligibility calculation system.
+
+Gemini must NOT independently determine eligibility.
+
+Use deterministic rules based on verified scheme requirements.
+
+Evaluate:
+
+- Age.
+- State.
+- Residence.
+- Income.
+- Education.
+- Employment.
+- Occupation.
+- Category restrictions, where relevant.
+- Other scheme-specific conditions.
+
+### Result classifications
+
+**Likely Eligible:** All known requirements are satisfied.
+
+**Potentially Eligible:** Some information is missing or requires confirmation.
+
+**Not Currently Eligible:** One or more verified requirements are not satisfied.
+
+Display:
+
+- Conditions satisfied.
+- Conditions not satisfied.
+- Missing information.
+- Reason for classification.
+- Required documents.
+- Official source.
+- Next recommended action.
+
+Never classify missing information as a confirmed failure.
+
+Never guarantee approval.
+
+---
+
+# 13. PERSONALIZED DASHBOARD
+
+Build a dashboard using actual Firestore records.
+
+Include:
+
+- Schemes matching my profile.
+- Saved schemes.
+- Applications in progress.
+- Approved applications.
+- Pending actions.
+- Recommended schemes.
+- Recently viewed schemes.
+- Application progress.
+- Verified upcoming deadlines.
+- Notifications.
+- Profile completion.
+
+Use Recharts where appropriate.
+
+Do not display fabricated numbers.
+
+---
+
+# 14. APPLICATION PREPARATION
+
+For each scheme, provide:
+
+1. Eligibility summary.
+2. Required document checklist.
+3. Application instructions.
+4. Official application link.
+5. Deadlines.
+6. FAQs.
+7. Preparation checklist.
+
+Allow users to mark documents as collected, mark tasks as completed, add notes and resume progress later.
+
+The platform guides users to official government application websites.
+
+Do not pretend to submit applications automatically.
+
+---
+
+# 15. APPLICATION TRACKER
+
+Implement these statuses:
+
+- Interested.
+- Preparing Documents.
+- Ready to Apply.
+- Submitted.
+- Under Review.
+- Additional Information Required.
+- Approved.
+- Rejected.
+- Closed.
+
+Store:
+
+- User ID.
+- Scheme ID.
+- Scheme name.
+- Optional application reference.
+- Application date.
+- Current status.
+- Last updated date.
+- Notes.
+- Status history.
+
+Allow manual status updates.
+
+Clearly distinguish manually entered status from government-verified status.
+
+---
+
+# 16. GEMINI-POWERED AI ASSISTANT
+
+Create a functional chatbot named:
+
+**YojanaSathi AI Assistant**
+
+Use the actual Gemini API through secure server-side integration.
+
+Capabilities:
+
+- Find government schemes.
+- Explain eligibility.
+- Explain scheme benefits.
+- Describe application procedures.
+- Identify required documents.
+- Explain government terminology.
+- Answer application questions.
+- Understand rejection notices.
+- Guide users through the platform.
+
+Use relevant verified scheme information and the user's profile only where authorized.
+
+### Grounded responses
+
+For scheme-related responses, provide:
+
+- Scheme name.
+- Explanation.
+- Official source.
+- Verification date, where available.
+
+Never invent government policies.
+
+If reliable information is unavailable, state that the information could not be verified.
+
+### Chat interface
+
+Implement:
+
+- Chat history.
+- New conversation.
+- Timestamps.
+- Loading indicators.
+- Error handling.
+- Retry.
+- Suggested questions.
+- Copy response.
+- Source links.
+
+Persist chat history with appropriate access controls.
+
+Handle API quota exhaustion and failures without displaying fake answers.
+
+---
+
+# 17. REJECTION NOTICE ANALYZER
+
+Create:
+
+**Understand My Rejection**
+
+Accept:
+
+- PDF rejection notices.
+- Supported image formats.
+- Manually pasted rejection text.
+
+Use secure server-side document processing and Gemini.
+
+Display:
+
+1. Summary.
+2. Explicitly stated rejection reason.
+3. Confirmed reasons.
+4. Possible contributing reasons.
+5. Missing information.
+6. Documents requiring correction.
+7. Suggested corrective steps.
+8. Possible next actions.
+9. Verified grievance or appeal resources.
+
+Clearly distinguish confirmed reasons from possible reasons.
+
+Never invent rejection reasons or guarantee appeal success.
+
+Allow users to delete documents and analysis records.
+
+---
+
+# 18. LANGUAGE SUPPORT – EXACTLY SEVEN OPTIONS
+
+Keep the language selector simple.
+
+Support exactly these seven interface languages:
+
+1. English.
+2. Hindi.
+3. Bengali.
+4. Telugu.
+5. Marathi.
+6. Tamil.
+7. Gujarati.
+
+English should be the default language.
+
+### Localization requirements
+
+Implement a centralized translation system.
+
+Translate:
+
+- Navigation.
+- Buttons.
+- Headings.
+- Forms.
+- Validation messages.
+- Dashboard labels.
+- Notifications.
+- Settings.
+- Chatbot interface.
+- Main instructional content.
+- Error messages.
+- Empty states.
+
+Do not merely translate the navigation.
+
+Do not randomly mix English and other languages.
+
+Use consistent terminology.
+
+Persist the selected language across sessions and page refreshes.
+
+Support Unicode characters and appropriate fonts.
+
+The Gemini chatbot should respond in the user's selected language whenever supported.
+
+For scheme names, legal terms and official government terminology, preserve the original wording where translation could change the meaning.
+
+If a translation is unavailable, use a clear English fallback rather than displaying corrupted text.
+
+Do not show additional language options beyond these seven.
+
+---
+
+# 19. NOTIFICATIONS AND REMINDERS
+
+Implement Firestore-based notifications.
+
+Include:
+
+- User-entered application status changes.
+- Verified upcoming deadlines.
+- Incomplete preparation.
+- Missing profile information.
+- Verified scheme updates.
+- Personal reminders.
+
+Allow users to mark notifications as read, delete them and manage preferences.
+
+Do not claim SMS, email or push delivery unless actually integrated.
+
+---
+
+# 20. ADMINISTRATOR DASHBOARD
+
+Create a protected administrator dashboard.
+
+Only authorized administrator accounts may access it.
+
+Never allow users to assign themselves administrator privileges.
+
+Features:
+
+- Manage schemes.
+- Add schemes.
+- Edit scheme information.
+- Archive outdated schemes.
+- Verify official sources.
+- Update verification dates.
+- Manage categories.
+- Review user feedback.
+- View administrative audit history.
+
+Verification statuses:
+
+- Draft.
+- Verification Required.
+- Verified.
+- Needs Review.
+- Archived.
+
+---
+
+# 21. FIRESTORE DATABASE
+
+Create collections for:
+
+- users.
+- schemes.
+- applications.
+- savedSchemes.
+- notifications.
+- conversations.
+- messages.
+- rejectionAnalyses.
+- reminders.
+- feedback.
+- adminAuditLogs.
+
+Use appropriate document IDs, references and timestamps.
+
+Use pagination.
+
+Implement restrictive Firestore Security Rules.
+
+Users must only access their own personal information and records.
+
+Users cannot modify their own roles.
+
+Only authorized administrators can modify scheme records.
+
+Never rely exclusively on frontend authorization.
+
+---
+
+# 22. PRIVACY AND SECURITY
+
+Implement:
+
+- Minimal data collection.
+- Consent where appropriate.
+- Secure authentication.
+- Server-side secret management.
+- Input validation.
+- File validation.
+- Secure document processing.
+- Access controls.
+- Firestore Security Rules.
+- Safe error messages.
+- AI endpoint rate limiting.
+- Account deletion workflow.
+- Data deletion workflow.
+- Privacy policy.
+- Terms of service.
+
+Prepare the application for applicable Indian data protection requirements, including the Digital Personal Data Protection framework.
+
+Do not claim independently certified legal compliance.
+
+---
+
+# 23. ACCESSIBILITY
+
+Implement:
+
+- Readable typography.
+- Keyboard navigation.
+- Visible focus indicators.
+- Accessible labels.
+- Sufficient contrast.
+- Simple language.
+- Clear instructions.
+- Useful validation messages.
+- Accessible forms.
+- Responsive layouts.
+
+---
+
+# 24. ERROR HANDLING
+
+Every important module must include:
+
+- Loading states.
+- Success feedback.
+- Error feedback.
+- Empty states.
+- Retry mechanisms.
+- Validation.
+- Network failure handling.
+
+Handle:
+
+- Incomplete profiles.
+- Missing scheme information.
+- Gemini failures.
+- Invalid documents.
+- Firestore errors.
+- Page refreshes.
+- Logout.
+- Empty search results.
+
+The application must not crash when any of these occur.
+
+---
+
+# 25. TESTING
+
+Test the actual application.
+
+### Authentication
+
+- Registration.
+- Login.
+- Invalid credentials.
+- Password reset.
+- Session persistence.
+- Logout.
+- Home page redirect.
+
+### Database
+
+- Profile creation.
+- Profile updates.
+- Saved schemes.
+- Application creation.
+- Status updates.
+- User data isolation.
+
+### Eligibility
+
+- All conditions satisfied.
+- Age failure.
+- Income failure.
+- State failure.
+- Education failure.
+- Missing information.
+- Multiple failed conditions.
+
+### AI
+
+- Questions about verified schemes.
+- Unverified information.
+- English responses.
+- Hindi responses.
+- Other supported languages.
+- API failure.
+- Rate-limit handling.
+
+### Rejection analysis
+
+- Valid PDF.
+- Invalid file.
+- Empty file.
+- Typed notice.
+- Clear rejection reason.
+- Ambiguous rejection reason.
+
+### Localization
+
+Test all seven languages.
+
+Confirm that:
+
+- Translations are consistent.
+- The language preference persists.
+- Navigation works.
+- Forms remain usable.
+- No random language mixing occurs.
+
+### Security
+
+- Unauthorized data access.
+- Unauthorized role modification.
+- Unauthorized scheme modification.
+- Administrator route protection.
+
+Fix important failures before declaring completion.
+
+---
+
+# 26. PROJECT DOCUMENTATION
+
+Inside the main project folder, create:
+
+1. README.md.
+2. PROJECT_STATUS.md.
+3. ARCHITECTURE.md.
+4. DATABASE_SCHEMA.md.
+5. FIRESTORE_SECURITY.md.
+6. API_DOCUMENTATION.md.
+7. AI_IMPLEMENTATION.md.
+8. LOCALIZATION.md.
+9. TESTING.md.
+10. DEPLOYMENT.md.
+11. PRIVACY_AND_SECURITY.md.
+
+PROJECT_STATUS.md must track:
+
+- Completed modules.
+- Incomplete modules.
+- Known bugs.
+- Missing credentials.
+- Testing results.
+- Deployment status.
+- Next development tasks.
+
+---
+
+# 27. DEVELOPMENT EXECUTION ORDER
+
+Follow this sequence.
+
+### Phase 1
+Project initialization, folder structure, architecture and chic design system.
+
+### Phase 2
+Home page, routing and responsive navigation.
+
+### Phase 3
+Firebase configuration, registration, login and authentication.
+
+### Phase 4
+User profile and personalized dashboard.
+
+### Phase 5
+Scheme database, discovery, search and filters.
+
+### Phase 6
+Deterministic eligibility engine.
+
+### Phase 7
+Application preparation and tracker.
+
+### Phase 8
+Gemini AI assistant.
+
+### Phase 9
+PDF processing and rejection analyzer.
+
+### Phase 10
+Seven-language localization.
+
+### Phase 11
+Notifications and reminders.
+
+### Phase 12
+Protected administrator dashboard.
+
+### Phase 13
+Security, testing and bug fixing.
+
+### Phase 14
+Deployment preparation, documentation and complete project export.
+
+After each phase:
+
+1. Verify implementation.
+2. Fix encountered errors.
+3. Update PROJECT_STATUS.md.
+4. Preserve existing functionality.
+5. Continue to the next phase.
+
+---
+
+# 28. FINAL DEFINITION OF DONE
+
+The project is complete only when:
+
+- Public Home page opens by default.
+- Registration works.
+- Login works.
+- Logout works.
+- User sessions persist.
+- User profile saves correctly.
+- Personalized greeting works.
+- Dashboard uses actual data.
+- Scheme search and filters work.
+- Scheme details work.
+- Bookmarks persist.
+- Eligibility calculations are deterministic.
+- Eligibility explanations work.
+- Application preparation progress persists.
+- Application tracker works.
+- Gemini chatbot produces real responses.
+- AI responses use verified scheme information.
+- Rejection analyzer processes supported documents.
+- Confirmed and possible reasons are separated.
+- All seven language options work.
+- Theme preference persists.
+- Notifications work.
+- Administrator access is protected.
+- Firestore security rules are implemented.
+- Desktop and mobile layouts work.
+- Important tests pass.
+- Project documentation exists.
+- All project files are organised inside YojanaSathi-AI.
+- Export or ZIP preparation is complete.
+- Deployment configuration is documented.
+
+Do not mark a feature complete simply because its interface exists.
+
+---
+
+# 29. FINAL EXECUTION INSTRUCTIONS
+
+Start building the actual application now.
+
+Do not respond with only a proposal.
+
+Create the project files and implement the application.
+
+Make sensible technical decisions without unnecessary questions.
+
+When Firebase setup is required, initiate the integration and tell me exactly what I need to approve.
+
+When credentials are required, use secure Secrets configuration.
+
+Do not ask me to manually write code.
+
+Do not repeatedly request confirmation after every phase.
+
+Do not regenerate working modules unnecessarily.
+
+If you encounter a technical limitation, implement the most reliable alternative and document it.
+
+At the end, provide:
+
+1. Features implemented.
+2. Authentication status.
+3. Database status.
+4. Gemini integration status.
+5. Seven-language support status.
+6. Security status.
+7. Tests executed and results.
+8. External configuration still required.
+9. Deployment instructions.
+10. Project folder location.
+11. ZIP download option, if successfully created.
+12. Known limitations.
+
+**FINAL OBJECTIVE: Deliver a complete, chic, sophisticated, secure, responsive and genuinely functional YojanaSathi AI application, with all project files organised inside one easily exportable root folder.**
